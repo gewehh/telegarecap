@@ -557,18 +557,19 @@
         }
 
         .decorative-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 20px;
-            margin: 5px;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            animation: badge-float 3s ease-in-out infinite;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+		display: inline-block;
+		background: rgba(0, 0, 0, 0.35); /* затемнили */
+		backdrop-filter: blur(10px);
+		padding: 8px 16px;
+		border-radius: 20px;
+		margin: 5px;
+		font-size: 14px;
+		color: #fff; /* стало ярче */
+		border: 1px solid rgba(255, 255, 255, 0.25);
+		animation: badge-float 3s ease-in-out infinite;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+		}
+
 
         @keyframes badge-float {
             0%, 100% { transform: translateY(0); }
@@ -907,7 +908,7 @@
         tg.setBackgroundColor('#667eea');
 
         const BOT_USERNAME = 'itogigodatgrobot'; // Замени на username своего бота (без @)
-        const API_URL = 'https://gewehh.github.io/telegarecap/'; // Замени на URL твоего сервера с ботом
+        const API_URL = 'http://localhost:8080'; // Замени на URL твоего сервера с ботом
         let userId = null;
         let startParam = null;
 
@@ -1154,17 +1155,29 @@
             createFirework(window.innerWidth / 2, window.innerHeight / 2);
         }
 
+			setInterval(() => {
+				const btn = document.querySelector('.btn-share');
+				if (!btn) return;
+
+				btn.style.transform = 'scale(1.08)';
+				setTimeout(() => btn.style.transform = 'scale(1)', 250);
+			}, 2500);
+
+
         // Проверить приглашения
         async function checkReferrals() {
-            const count = await checkReferralsCount();
-            updateReferralProgress(count);
-            
-            if (count >= 1) {
-                showGiftScreen();
-            } else {
-                tg.showAlert(`У тебя ${count} из 1 приглашенных друзей.\n\nПродолжай приглашать! 🚀`);
-            }
-        }
+    const count = await checkReferralsCount();
+    updateReferralProgress(count);
+
+    if (count >= 1) {
+        tg.showAlert("🎉 Друг приглашён! Доступ открыт!");
+        showGiftScreen();
+        return;
+    }
+
+    tg.showAlert(`У тебя ${count} из 1 приглашённых друзей.\n\nПопробуй ещё раз, всё получится! 🚀`);
+}
+
 
         // Обновить прогресс рефералов
         function updateReferralProgress(count) {
@@ -1256,18 +1269,17 @@
             }
 
             const referralCount = await checkReferralsCount();
-            
-            if (referralCount < 1) {
-                showReferralScreen();
-                updateReferralProgress(referralCount);
-                return;
-            }
 
-            showLoadingScreen();
-            setTimeout(() => {
-                showGiftScreen();
-            }, 3000);
-        }
+			if (referralCount < 1) {
+				showReferralScreen();
+				updateReferralProgress(referralCount);
+				return;
+			}
+
+			// уже есть друг → даём доступ сразу
+			showLoadingScreen();
+			setTimeout(() => showGiftScreen(), 2000);
+
 
         // Запуск при загрузке
         window.onload = function() {
