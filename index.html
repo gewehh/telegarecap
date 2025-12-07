@@ -756,7 +756,33 @@
 			0%, 100% { text-shadow: 0 0 20px #00ff00; }
 			50% { text-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00; }
 		}
-		
+		/* ФИКС: идеальное центрирование экрана рефералов + большой подарок не съезжает */
+.referral-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px 15px;
+    text-align: center;
+}
+
+/* Делаем так, чтобы большой подарок не толкал кнопки за экран */
+.referral-screen > div:not(.btn) {
+    margin-bottom: 15px;
+}
+
+/* Немного поджимаем прогресс-бар и счётчик, чтобы всё влезло */
+#referralProgress {
+    height: 28px !important;
+    border-radius: 20px;
+}
+
+.referral-screen .btn {
+    width: 90%;
+    max-width: 340px;
+    margin: 12px auto;
+}
     </style>
 </head>
 <body>
@@ -799,48 +825,53 @@
             </div>
 
             <!-- Экран реферальной системы -->
-            <!-- Экран реферальной системы — УЛУЧШЕННАЯ ВЕРСИЯ -->
-			<div class="referral-screen" id="referralScreen" style="display: none;">
-				<div class="result-title">Пригласи друга и получи итоги!</div>
-				<p style="margin-bottom: 20px; font-size: 18px;">
-					Осталось пригласить всего <strong>1 друга</strong><br>
-					(он тоже должен зайти и подписаться)
-				</p>
-				
-				<div class="mega-gift">Подарок</div>
+<!-- ЭКРАН РЕФЕРАЛОВ — КРАСИВАЯ, ЯРКАЯ, РАБОЧАЯ ВЕРСИЯ -->
+<!-- НОВЫЙ ЯРКИЙ ЭКРАН РЕФЕРАЛОВ — РАБОЧАЯ ВЕРСИЯ 2025 -->
+<div class="referral-screen" id="referralScreen" style="display: none; padding: 20px 15px; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+    
+    <div style="font-size: 36px; font-weight: 900; color: #fff; text-shadow: 0 0 30px #ff00ff, 0 0 60px #ffff00; margin-bottom: 15px;">
+        Пригласи всего 1 друга
+    </div>
 
-				<!-- Прогресс-бар стал ярче и красивее -->
-				<div class="progress-bar" style="height: 20px; border-radius: 20px; background: rgba(255,255,255,0.15); box-shadow: inset 0 4px 10px rgba(0,0,0,0.3);">
-					<div class="progress-fill" id="referralProgress" style="width: 0%; background: linear-gradient(90deg, #ff9d00, #ff6b6b, #ff8eed); border-radius: 20px; box-shadow: 0 0 20px rgba(255,107,107,0.8);"></div>
-				</div>
-				
-				<p style="margin: 20px 0; font-size: 32px; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.7);">
-					<span id="referralCount">0</span> / 1
-				</p>
+    <!-- ОГРОМНЫЙ ПОДАРОК -->
+    <div style="font-size: 160px; margin: 25px 0; animation: mega-bounce 1.8s infinite; filter: drop-shadow(0 15px 40px rgba(0,0,0,0.6));">
+        🎁
+    </div>
 
-				<!-- Бейджи теперь на тёмном стекле — всегда читаются -->
-				<div class="badges-container" style="gap: 12px;">
-					<div class="decorative-badge" style="background: rgba(255,255,255,255,0.25); color: #fff; border: 1px solid rgba(255,255,255,0.4);">Супер быстро</div>
-					<div class="decorative-badge" style="background: rgba(255,255,255,0.25); color: #fff; border: 1px solid rgba(255,255,255,0.4);">Легко и просто</div>
-					<div class="decorative-badge" style="background: linear-gradient(45deg,#ff6b6b,#ff8b94); color: #fff; animation: pulse 2s infinite;">Гарантированный подарок</div>
-				</div>
+    <p style="font-size: 22px; color: #fff; font-weight: 800; text-shadow: 0 3px 15px rgba(0,0,0,0.7); max-width: 90%;">
+        и получи свои итоги 2025 года<br>мгновенно и бесплатно!
+    </p>
 
-				<div class="referral-link" id="referralLink" style="margin: 25px 0; padding: 20px; font-size: 17px; background: rgba(255,255,255,0.25); backdrop-filter: blur(12px);">
-					Загрузка твоей ссылки...
-				</div>
+    <!-- Яркий прогресс-бар -->
+    <div style="width: 90%; max-width: 400px; height: 36px; border-radius: 20px; background: rgba(0,0,0,0.5); margin: 35px 0; overflow: hidden; border: 3px solid rgba(255,255,255,0.4); box-shadow: 0 0 40px rgba(255,215,0,0.8);">
+        <div id="referralProgress" style="width:0%; height:100%; background: linear-gradient(90deg, #ffd700, #ff00ff, #00ff88); transition: width 1s ease; border-radius: 16px;"></div>
+    </div>
 
-				<button class="btn btn-share" onclick="shareReferralLink()">
-					Поделиться ссылкой
-				</button>
+    <!-- Счётчик -->
+    <div style="font-size: 70px; font-weight: 900; color: #fff; margin: 10px 0;">
+        <span id="referralCount">0</span><span style="font-size: 50px; opacity: 0.8;"> / 1</span>
+    </div>
 
-				<button class="btn" onclick="checkReferrals()">
-					Проверить приглашения
-				</button>
+    <!-- Яркие бейджи -->
+    <div style="display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin: 30px 0;">
+        <div style="background: #ff006e; color: white; padding: 14px 28px; border-radius: 50px; font-weight: 900; font-size: 17px; box-shadow: 0 8px 30px rgba(255,0,110,0.7);">Мгновенно</div>
+        <div style="background: #00d4ff; color: white; padding: 14px 28px; border-radius: 50px; font-weight: 900; font-size: 17px; box-shadow: 0 8px 30px rgba(0,212,255,0.7);">Очень просто</div>
+    </div>
 
-				<p style="margin-top: 25px; font-size: 15px; opacity: 0.9;">
-					Подсказка: отправь ссылку другу в личку — он зайдёт за 10 секунд и ты сразу получишь итоги!
-				</p>
-			</div>
+    <!-- Реферальная ссылка -->
+    <div id="referralLink" style="background: rgba(0,0,0,0.8); color: #fff; padding: 22px; border-radius: 20px; margin: 30px 0; font-size: 17px; word-break: break-all; border: 3px solid rgba(255,255,255,0.5); font-weight: 600; width: 90%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.7);">
+        Загрузка ссылки...
+    </div>
+
+    <!-- Кнопки -->
+    <button onclick="shareReferralLink()" style="background: linear-gradient(135deg,#ff5e62,#ff9966); color: white; border: none; padding: 20px 0; width: 90%; max-width: 400px; border-radius: 50px; font-size: 20px; font-weight: 900; box-shadow: 0 10px 40px rgba(255,94,98,0.6); margin: 10px 0;">
+        Поделиться ссылкой
+    </button>
+
+    <button onclick="checkReferrals()" style="background: linear-gradient(135deg,#00ff88,#00cc66); color: white; border: none; padding: 20px 0; width: 90%; max-width: 400px; border-radius: 50px; font-size: 20px; font-weight: 900; box-shadow: 0 10px 40px rgba(0,255,136,0.6);">
+        Проверить приглашения
+    </button>
+</div>
 
             <!-- Экран загрузки -->
             <div class="loading" id="loading" style="display: none;">
@@ -936,8 +967,8 @@
         tg.setHeaderColor('#667eea');
         tg.setBackgroundColor('#667eea');
 
-        const BOT_USERNAME = 'YOUR_BOT_USERNAME'; // Замени на username своего бота (без @)
-        const API_URL = 'http://localhost:8080'; // Замени на URL твоего сервера с ботом
+        const BOT_USERNAME = 'itogigodatgrobot'; // Замени на username своего бота (без @)
+        const API_URL = 'https://gewehh.github.io/tgrecap/'; // Замени на URL твоего сервера с ботом
         let userId = null;
         let startParam = null;
 
