@@ -327,17 +327,7 @@
                 <div class="screen-text">Подожди пару секунд</div>
             </div>
 
-            <!-- Экран подписки -->
-            <div class="screen" id="subscriptionScreen">
-                <div style="font-size: 60px; margin: 20px 0;">⚠️</div>
-                <div class="screen-title">Требуется подписка</div>
-                <div class="screen-text">
-                    Пожалуйста, подпишись на канал в боте, чтобы продолжить
-                </div>
-                <button class="btn" onclick="window.Telegram.WebApp.close()">
-                    Вернуться в бот
-                </button>
-            </div>
+            
 
             <!-- Экран рефералов -->
             <div class="screen" id="referralScreen">
@@ -452,7 +442,7 @@
         tg.setBackgroundColor('#667eea');
 
         const BOT_USERNAME = 'itogigodatgrobot';
-        const API_URL = 'https://itogi2025.loca.lt'; // ВАЖНО: Измени на твой сервер!
+        const API_URL = 'https://icy-pants-learn.loca.lt'; // ВАЖНО: Измени на твой сервер!
         
         let userId = null;
         let startParam = null;
@@ -481,24 +471,7 @@
             document.getElementById(screenId).classList.add('active');
         }
 
-        // Проверка подписок
-        async function checkSubscription() {
-            if (!userId) return false;
-            
-            try {
-                const res = await fetch(`${API_URL}/api/check_subscription`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: userId })
-                });
-                
-                const data = await res.json();
-                return data.subscribed;
-            } catch (e) {
-                console.error('Ошибка проверки подписок:', e);
-                return false;
-            }
-        }
+        
 
         // Проверка рефералов
         async function checkReferrals() {
@@ -664,4 +637,3 @@
     </script>
 </body>
 </html>
-
