@@ -451,23 +451,29 @@
 
         // Проверка рефералов
         async function checkReferrals() {
-            if (!userId) return 0;
-            
-            try {
-                const res = await fetch(`${API_URL}/api/check_referrals`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: userId })
-                });
-                
-                const data = await res.json();
-                console.log('Реферальный ответ:', data);
-                return data.referral_count || 0;
-            } catch (e) {
-                console.error('Ошибка проверки рефералов:', e);
-                return 0;
-            }
-        }
+    if (!userId) return 0;
+    
+    try {
+        console.log('Запрос к API:', `${API_URL}/api/check_referrals`);  // ← НОВОЕ: лог URL
+        console.log('Отправляемые данные:', { user_id: userId });  // ← НОВОЕ: лог данных
+        
+        const res = await fetch(`${API_URL}/api/check_referrals`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: userId })
+        });
+        
+        console.log('Ответ сервера:', res.status, res.statusText);  // ← НОВОЕ: статус ответа
+        
+        const data = await res.json();
+        console.log('Реферальный ответ:', data);  // ← Уже было
+        return data.referral_count || 0;
+    } catch (e) {
+        console.error('Ошибка проверки рефералов:', e);  // ← Уже было
+        console.log('Детали ошибки:', e.message);  // ← НОВОЕ: детали
+        return 0;
+    }
+}
 
         // Сохранить реферала
         async function saveReferral() {
@@ -607,5 +613,6 @@
 </body>
 </html>
 </DOCUMENT>
+
 
 
