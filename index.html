@@ -318,17 +318,7 @@
             <h1 class="title">Твои итоги 2025 года</h1>
             <p class="subtitle">✨ в Telegram ✨</p>
         </div>
-
         <div class="card">
-            <!-- Экран проверки -->
-            <div class="screen active" id="checkingScreen">
-                <div class="spinner"></div>
-                <div class="screen-title">Проверяем подписки...</div>
-                <div class="screen-text">Подожди пару секунд</div>
-            </div>
-
-            
-
             <!-- Экран рефералов -->
             <div class="screen" id="referralScreen">
                 <div class="big-emoji">🎁</div>
@@ -336,41 +326,33 @@
                 <div class="screen-text">
                     Поделись ссылкой с другом, чтобы получить доступ к итогам
                 </div>
-
                 <div class="progress-container">
                     <div class="progress-bar" id="progressBar" style="width: 0%"></div>
                 </div>
-
                 <div class="count-display">
                     <span id="refCount">0</span><span style="opacity: 0.5; font-size: 0.7em;"> / 1</span>
                 </div>
-
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 15px 0;">
                     <span class="badge">🎯 Легко</span>
                     <span class="badge">⚡ Быстро</span>
                     <span class="badge">💎 Эксклюзив</span>
                 </div>
-
                 <div class="ref-link-box" id="refLink">
                     Загрузка ссылки...
                 </div>
-
                 <button class="btn" onclick="shareLink()">
                     📤 Поделиться ссылкой
                 </button>
-
                 <button class="btn btn-secondary" onclick="checkProgress()">
                     🔄 Проверить статус
                 </button>
             </div>
-
             <!-- Экран загрузки -->
             <div class="screen" id="loadingScreen">
                 <div class="spinner"></div>
                 <div class="screen-title">Подсчитываем достижения...</div>
                 <div class="screen-text">Это займет несколько секунд</div>
             </div>
-
             <!-- Экран подарка -->
             <div class="screen" id="giftScreen">
                 <div class="big-emoji">🎉</div>
@@ -379,21 +361,17 @@
                     Твой подарок готов!<br>
                     Итоги 2025 года готовятся специально для тебя
                 </div>
-
                 <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 20px 0;">
-                    <span class="badge">✅ Подписка</span>
                     <span class="badge">✅ Друг</span>
                     <span class="badge">✅ Готово</span>
                 </div>
             </div>
-
             <!-- Экран итогов -->
             <div class="screen" id="resultScreen">
                 <div class="screen-title">📅 Следи за датой!</div>
                 <div class="screen-text">
                     Твои персональные итоги 2025 года будут опубликованы:
                 </div>
-
                 <div class="countdown-box">
                     <div style="font-size: 18px; font-weight: 600; margin-bottom: 15px;">
                         30 декабря 2025 года
@@ -403,11 +381,9 @@
                     </div>
                     <div style="font-size: 50px; margin-top: 15px;">🎁</div>
                 </div>
-
                 <div class="screen-text" style="margin: 20px 0;">
                     Мы готовим для тебя что-то особенное! ✨
                 </div>
-
                 <div class="stats-grid">
                     <div class="stat-card">
                         <div class="stat-icon">📱</div>
@@ -426,7 +402,6 @@
                         <div class="stat-label">Активность</div>
                     </div>
                 </div>
-
                 <div class="success-box">
                     ✅ Ты в списке! Возвращайся 30 декабря!
                 </div>
@@ -470,8 +445,6 @@
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
         }
-
-        
 
         // Проверка рефералов
         async function checkReferrals() {
@@ -593,13 +566,6 @@
             
             await new Promise(r => setTimeout(r, 2000));
             
-            const hasSub = await checkSubscription();
-            
-            if (!hasSub) {
-                showScreen('subscriptionScreen');
-                return;
-            }
-
             const refCount = await checkReferrals();
             
             if (refCount < 1) {
